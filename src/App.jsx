@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   ArrowUpRight, Github, Linkedin, Mail, Menu, X, Code2, Database,
   BrainCircuit, Layers3, GraduationCap, BriefcaseBusiness, Sparkles, FileText, Server, Cloud,
-  ShieldCheck, Workflow, Wrench, Globe, MapPin, Receipt, Lock
+  ShieldCheck, Workflow, Wrench, Globe, MapPin, Receipt, Lock, ExternalLink
 } from 'lucide-react';
 
 const projects = [
@@ -98,12 +98,27 @@ const professionalProjects = [
     accent: 'green',
     icon: Database,
     artLabel: 'SCRAPING / DATA'
+  },
+  {
+    category: 'CLOUD DATA PLATFORM · AWS',
+    title: 'UniDataHub — Live Scraping & Ready-Made Datasets Platform',
+    description: 'A cloud-native data platform where users launch live web-scraping jobs on demand, monitor execution in real time, and purchase pre-collected, structured datasets.',
+    stack: ['Python', 'Flask', 'MongoDB', 'AWS Lambda', 'Amazon S3', 'DynamoDB'],
+    points: [
+      'Connected the Flask application to distributed scraping services running on AWS, with live job tracking in Amazon DynamoDB.',
+      'Implemented backend workflows for securely storing, caching, and serving dataset artifacts using Amazon S3 and MongoDB.',
+      'Engineered a user credit system with quota controls and automated starter credits for newly registered users.'
+    ],
+    liveUrl: 'https://staging-unidatahub.coderaim.com/',
+    accent: 'orange',
+    icon: Cloud,
+    artLabel: 'SCRAPING / DATASETS'
   }
 ];
 
 const skillGroups = [
-  { icon: Server, title: 'Backend', items: ['Python', 'OOP', 'Django', 'Django REST Framework', 'FastAPI', 'RESTful API Design', 'Django ORM'] },
-  { icon: Database, title: 'Databases', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Query Optimization', 'Schema Design', 'Indexing'] },
+  { icon: Server, title: 'Backend', items: ['Python', 'OOP', 'Django', 'Django REST Framework', 'FastAPI', 'Flask', 'RESTful API Design', 'Django ORM'] },
+  { icon: Database, title: 'Databases', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'DynamoDB', 'Query Optimization', 'Schema Design', 'Indexing'] },
   { icon: Cloud, title: 'Cloud & DevOps', items: ['AWS EC2', 'AWS S3', 'AWS RDS', 'AWS Lambda', 'Linux', 'Docker', 'CI/CD Pipelines'] },
   { icon: ShieldCheck, title: 'Auth & Security', items: ['JWT', 'OAuth2', 'RBAC', 'Authentication', 'Authorization'] },
   { icon: Workflow, title: 'Async & Messaging', items: ['Celery', 'Redis', 'asyncio'] },
@@ -114,7 +129,7 @@ const skillGroups = [
 
 const experience = [
   {
-    role: 'Software Engineer (Contract)',
+    role: 'Software Engineer',
     company: 'Ansh Infotech',
     period: 'May 2026 – Present',
     current: true,
@@ -162,7 +177,9 @@ function ProjectCard({ project, number }) {
         {project.metrics && <div className="metrics-row">{project.metrics.map(([label, value]) => <div className="metric" key={label}><small>{label}</small><strong>{value}</strong></div>)}</div>}
         {project.url
           ? <a className="project-link" href={project.url} target="_blank" rel="noreferrer">View source code <Github size={16}/><ArrowUpRight size={15}/></a>
-          : <span className="project-link project-private"><Lock size={14}/> Client project · source code confidential</span>}
+          : project.liveUrl
+            ? <span className="project-links"><a className="project-link" href={project.liveUrl} target="_blank" rel="noreferrer">View live site <ExternalLink size={15}/></a><span className="project-link project-private"><Lock size={14}/> Source code confidential</span></span>
+            : <span className="project-link project-private"><Lock size={14}/> Client project · source code confidential</span>}
       </div>
       <div className="project-art"><div className="art-core"><Icon/></div><span className="art-label">{project.artLabel}</span></div>
     </article>
@@ -248,7 +265,7 @@ function App() {
 
         <section className="section-wrap projects-section" id="projects">
           <div className="section-heading project-heading"><div><span className="section-index">04 / SELECTED WORK</span><h2>Projects built <span className="gradient-text">end to end.</span></h2><p>Production systems I’ve built for clients, plus personal projects in Generative AI and RAG.</p></div><a className="text-link" href="https://github.com/imran-shaikh-is" target="_blank" rel="noreferrer">View GitHub profile <ArrowUpRight size={16}/></a></div>
-          <h3 className="project-group-label"><BriefcaseBusiness size={15}/> Professional work <span>Client projects · code is confidential</span></h3>
+          <h3 className="project-group-label"><BriefcaseBusiness size={15}/> Professional work <span>Client projects · source code is confidential</span></h3>
           <div className="projects-list">{professionalProjects.map((project, index) => <ProjectCard key={project.title} project={project} number={String(index + 1).padStart(2, '0')} />)}</div>
           <h3 className="project-group-label personal"><Code2 size={15}/> Personal projects <span>Independently designed and built · open source</span></h3>
           <div className="projects-list">{projects.map((project, index) => <ProjectCard key={project.title} project={project} number={String(professionalProjects.length + index + 1).padStart(2, '0')} />)}</div>
